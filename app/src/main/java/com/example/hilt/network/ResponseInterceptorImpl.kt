@@ -8,5 +8,4 @@ class ResponseInterceptorImpl @Inject constructor(): Interceptor {
     override fun log(msg: String) {
         Log.d(TAG, "Response interceptor: $msg")
     }
-
 }

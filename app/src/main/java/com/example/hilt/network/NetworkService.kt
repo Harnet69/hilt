@@ -10,10 +10,10 @@ import com.example.hilt.TAG
     and get an instance of network service
  */
 class NetworkService private constructor(builder: Builder) {
-    val protocol: String?
-    val host: String?
-    val path: String?
-    val interceptor: Interceptor?
+    private val protocol: String?
+    private val host: String?
+    private val path: String?
+    private val interceptor: Interceptor?
 
     init {
         this.protocol = builder.protocol
