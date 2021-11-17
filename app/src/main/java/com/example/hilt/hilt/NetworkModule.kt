@@ -9,10 +9,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 
 @Module
-// instantiate a specific class of the interface
 @InstallIn(ActivityComponent::class)
 class NetworkModule {
 
+    // instantiate a specific class of the interface
     @CallInterceptor
     @Provides
     fun provideCallNetworkService(): NetworkService =
