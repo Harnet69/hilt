@@ -36,9 +36,9 @@ class MainActivity : AppCompatActivity() {
         statsViewModel.statsLiveData.observe(this, {
             Log.d(TAG, "The new stat is: $it")
         })
-        statsViewModel.startStatsCollection()
+//        statsViewModel.startStatsCollection()
 
-//        databaseAdapter.log("Welcoming log")
+        databaseAdapter.log("Welcoming log")
 
 //        interfaceForAppNetworkAdapterForInterface.log("Run injected interface")
 
