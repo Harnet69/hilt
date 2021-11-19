@@ -1,16 +1,16 @@
-#Hilt and Dependency Injection:
+# Hilt and Dependency Injection:
    - design pattern
    - Hilt is based on Dagger2 with thin layer of standartization
    - adventages of Hilt: easier to learn, not as complicated as Dagger, has automaticly generated components
    - the main idea of DI: One class uses a functions(methods) of an another. The second one is a dependency for the first
      (RecyclerViewAdapter depends on Adapter, in MVVM View depends on ViewModel)
 
-  Scheme of DI by Dagger2:
+  ### Scheme of DI by Dagger2:
   - Module(@Provides) - instantiation logic
   - Component(fun inject(into)) - injection logic(where the instance is injects)!!! Hilt removes a component
   - Target(@Inject) - any file or class. Uses the component to preform an injection
 
-  Supported classes:
+  ### Supported classes:
   - Application(@HiltAndroidApplication)
   - Activity(@ComponentActivity) Hilt supports only children of Component Activity (for exampleAppComponentActivity)
   - Fragment(androidx.Fragment) no retained fragment(which aren't destroyed abd recreated)
@@ -19,26 +19,25 @@
   - Broadcast receiver
   - ViewModel not supported by Hilt directly(Jetpack extensions)
 
-##SIMPLE Types of Hilt injections for OWN CLASSES:
-   IMPLEMENTATION:
-  - Constructor injection(provide Componentto dependency graph and instantiate a certain type)
-     = with no parameters class MyClass @Inject constructor()
-     = with parameters class MyClass @Inject constructor(dependency: Dependency)
+## SIMPLE Types of Hilt injections for OWN CLASSES:
+  ### Constructor injection(provide Componentto dependency graph and instantiate a certain type)
+     - with no parameters class MyClass @Inject constructor()
+     -  with parameters class MyClass @Inject constructor(dependency: Dependency)
 		       class Dependency	 @Inject constructor()
-  - Field injection(make different types and objects available where we need it)
-     = class where we inject must be annotated by @AndroidEntryPoint
+ ### Field injection(make different types and objects available where we need it)
+     - class where we inject must be annotated by @AndroidEntryPoint
      - injected type must be available to Hilt
 	@AndroidEntryPoint
 	class MainActivity  : AppCompatActivity() {
            @Inject lateinit var databaseAdapter: DatabaseAdapter}
-  - Method injection(inject object directly into a method call) Used rare
+ ### Method injection(inject object directly into a method call) Used rare
     !!! Not needed to call it at all!!! function trigered just when MyClass is became available in the dependency graph!!!
 	@Inject
 	fun callMyClass(myClass: MyClass){
 	   myClass.doSmth()
 	}
 
-##DIFFICULT type for Hilt injection
+## DIFFICULT type for Hilt injection
   - Modules (provide a way to instantiate difficult to inject types, allow to define of instantiation of the type for Hilt which and access and provides its instance)
     Interfaces can't be injected by constructor(we should provide the type of the interface for Hilt)
     NOT YOUR OWN types can't be conctructor injected(Glide, Retrofit for example)
@@ -60,7 +59,7 @@
             	.protocol("HTTPS")
             	.build()
 
-##QUALIFIERS(provide different implementation to the same type. For example implementations of an interface)
+## QUALIFIERS(provide different implementation to the same type. For example implementations of an interface)
 	@Qualifier
 	@Rention(AnnotationRention.BINARY)// how is annotation class is stored
 	annotation class MyQualifier
@@ -82,14 +81,14 @@
     	@CallInterceptor
     	@Inject lateinit var networkService: NetworkService
 
-##CONTEXT providing(Can be provided in injected class constructor as an injection using a specific qualifier)
+## CONTEXT providing(Can be provided in injected class constructor as an injection using a specific qualifier)
 	= @ApplicationContext provide an access to not destructable context(such Activity or fragment one)
 	= @ActivityContext(access to a current activity)
 
    Multiple components(for have an access in multilpe places)
 	@InstallIn(ActivityComponent::class, ViewComponent::class)
 	
-##VIEWMODEL INJECTIONS:
+## VIEWMODEL INJECTIONS:
    = add dependencies to build gradle file
 	// Hilt Jetpack Integrations
    	implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03'
@@ -103,7 +102,7 @@
   = inject viewModel to fragment or activity as a field
 	private val viewModel: DetailViewModel by viewModels()
 
-##UNIT TESTING WITH MOCKITO:
+## UNIT TESTING WITH MOCKITO:
   DI and Hilt gives a possibility to impelemet to a project tests(simple mocking dependencies in tests instead of instantiating)
   = add Mockito framework to dependencies in build gradle
 	testImplementation 'org.mockito:mockito-core:3.11.2'
@@ -127,7 +126,7 @@
         	assert(multRes == 4)
     }
 
-##COMPONENTS
+## COMPONENTS
   - Components and lifetimes
     Component binds together module and injectionCreating components is automated by Hilt, and allows to use standart components rather than write our own
 	###Supported classes(limited by a scope) and its lifetimes:
@@ -160,10 +159,10 @@
      Add annotation @ActivityScoped to a function you are @Provide
 	!!! Make sure it is suitable with a class annotation @InstallIn(ActivityComponent::class)
 	
-##Hierarchy(children of a module are allowed to access to its parent)
+## Hierarchy(children of a module are allowed to access to its parent)
 	@Singleton -> @ActivityRetainedScoped, @ServiceScoped -> @ActivityScoped -> @FragmentScoped, @ViewScoped -> @ViewScoped
    
- ##Implementation: Hilt
+## Implementation: Hilt
   - needs to application class
   - three types of injections:
    = Constructor injection(inject a class without any parameters)
