@@ -7,12 +7,15 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.scopes.ActivityScoped
+import javax.inject.Singleton
 
 @Module
 @InstallIn(ActivityComponent::class)
 class NetworkModule {
 
     // instantiate a specific class of the interface
+    @ActivityScoped
     @CallInterceptor
     @Provides
     fun provideCallNetworkService(): NetworkService =
@@ -22,6 +25,7 @@ class NetworkModule {
             .interceptor(CallInterceptorImpl())
             .build()
 
+    @ActivityScoped
     @ResponseInterceptor
     @Provides
     fun provideResponseNetworkService(): NetworkService =

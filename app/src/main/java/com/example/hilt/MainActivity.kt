@@ -22,9 +22,18 @@ class MainActivity : AppCompatActivity() {
 
     //interface injecting(not instance of a class this interface implemented)
 //    @Inject lateinit var interfaceForAppNetworkAdapterForInterface: AppNetworkModuleForInterface
+
     @CallInterceptor
     @Inject
-    lateinit var networkService: NetworkService
+    lateinit var networkService1: NetworkService
+
+    @CallInterceptor
+    @Inject
+    lateinit var networkService2: NetworkService
+
+    @CallInterceptor
+    @Inject
+    lateinit var networkService3: NetworkService
 
     //inject ViewModel class
     private val statsViewModel: StatsViewModel by viewModels()
@@ -42,7 +51,10 @@ class MainActivity : AppCompatActivity() {
 
 //        interfaceForAppNetworkAdapterForInterface.log("Run injected interface")
 
-//        networkService.preformNetworkCall()
+        // test a Singleton scope
+        networkService1.preformNetworkCall()
+        networkService2.preformNetworkCall()
+        networkService3.preformNetworkCall()
     }
 
     //method injection
